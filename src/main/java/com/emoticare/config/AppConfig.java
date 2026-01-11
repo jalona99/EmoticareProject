@@ -27,6 +27,17 @@ public class AppConfig implements WebMvcConfigurer {
         return resolver;
     }
 
+    @Bean
+    public AuthInterceptor authInterceptor() {
+        return new AuthInterceptor();
+    }
+
+    @Override
+    public void addInterceptors(org.springframework.web.servlet.config.annotation.InterceptorRegistry registry) {
+        registry.addInterceptor(authInterceptor())
+                .addPathPatterns("/admin/**", "/learning/**", "/forum/**");
+    }
+
     /**
      * Configure BCrypt Password Encoder
      * Strength 12 = ~1 second to verify on modern hardware
