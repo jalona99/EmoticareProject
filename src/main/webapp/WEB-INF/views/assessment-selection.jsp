@@ -240,7 +240,7 @@
 <body>
     <div class="container">
         <!-- Back Button -->
-        <a href="${pageContext.request.contextPath}/dashboard" class="back-button">
+        <a href="${pageContext.request.contextPath}/student/dashboard" class="back-button">
             ← Back to Dashboard
         </a>
         
@@ -342,3 +342,6 @@
     </script>
 </body>
 </html>
+
+
+

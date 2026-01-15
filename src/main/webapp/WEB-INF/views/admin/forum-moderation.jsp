@@ -75,7 +75,8 @@
                 </tbody>
             </table>
 
-            <p><a href="${pageContext.request.contextPath}/dashboard">Back to Dashboard</a></p>
+            <p><a href="${pageContext.request.contextPath}/admin/dashboard">Back to Dashboard</a></p>
         </body>
 
         </html>
+

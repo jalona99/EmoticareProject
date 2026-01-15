@@ -59,7 +59,9 @@
     </table>
     
     <div style="margin-top: 20px;">
-        <a href="${pageContext.request.contextPath}/dashboard">Back to Dashboard</a>
+        <a href="${pageContext.request.contextPath}/admin/dashboard">Back to Dashboard</a>
     </div>
 </body>
 </html>
+
+

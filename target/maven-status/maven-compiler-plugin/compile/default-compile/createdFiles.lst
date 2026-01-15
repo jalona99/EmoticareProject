@@ -26,6 +26,7 @@ com\emoticare\model\ProfessionalProfile.class
 com\emoticare\dao\ResponseDAO.class
 com\emoticare\service\AssessmentService.class
 com\emoticare\dao\ForumDAO.class
+com\emoticare\controller\LogoutController.class
 com\emoticare\service\ForumService.class
 com\emoticare\model\Assessment.class
 com\emoticare\model\AssessmentType.class

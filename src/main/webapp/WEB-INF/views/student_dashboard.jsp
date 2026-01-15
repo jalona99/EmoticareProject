@@ -33,6 +33,26 @@
                     text-align: center;
                 }
 
+                .top-actions {
+                    display: flex;
+                    justify-content: flex-end;
+                    margin-bottom: 16px;
+                }
+
+                .logout-link {
+                    background: #ef4444;
+                    color: #ffffff;
+                    padding: 10px 18px;
+                    border-radius: 10px;
+                    font-weight: 600;
+                    text-decoration: none;
+                    transition: background 0.2s ease;
+                }
+
+                .logout-link:hover {
+                    background: #dc2626;
+                }
+
                 .header h1 {
                     font-size: 32px;
                     font-weight: 700;
@@ -233,6 +253,9 @@
 
             <!-- Main Content -->
             <div class="container">
+                <div class="top-actions">
+                    <a href="${pageContext.request.contextPath}/logout" class="logout-link">Sign Out</a>
+                </div>
                 <div class="header">
                     <h1>Welcome Back, ${userName}! 👋</h1>
                     <p>Choose a feature below to get started</p>
@@ -366,3 +389,4 @@
         </body>
 
         </html>
+
