@@ -51,7 +51,7 @@ public class LoginController {
             }
 
         } else {
-            model.addAttribute("error", "Username atau Password salah!");
+            model.addAttribute("error", "Invalid username or password.");
             return "login";
         }
     }

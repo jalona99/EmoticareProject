@@ -6,26 +6,26 @@ import jakarta.validation.constraints.*;
 public class User {
     private Integer id;
     
-    @NotBlank(message = "Username tidak boleh kosong")
-    @Size(min = 3, max = 100, message = "Username harus 3-100 karakter")
-    @Pattern(regexp = "^[a-zA-Z0-9._-]+$", message = "Username hanya boleh mengandung huruf, angka, titik, dan garis miring")
+    @NotBlank(message = "Username is required")
+    @Size(min = 3, max = 100, message = "Username must be 3-100 characters")
+    @Pattern(regexp = "^[a-zA-Z0-9._-]+$", message = "Username may only contain letters, numbers, dots, underscores, and hyphens")
     private String username;
     
-    @NotBlank(message = "Email tidak boleh kosong")
-    @Email(message = "Format email tidak valid")
+    @NotBlank(message = "Email is required")
+    @Email(message = "Invalid email format")
     private String email;
     
-    @NotBlank(message = "Password tidak boleh kosong")
-    @Size(min = 8, message = "Password minimal 8 karakter")
+    @NotBlank(message = "Password is required")
+    @Size(min = 8, message = "Password must be at least 8 characters")
     @Pattern(
         regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[a-zA-Z\\d@$!%*?&]{8,}$",
-        message = "Password harus mengandung uppercase, lowercase, angka, dan simbol khusus"
+        message = "Password must include uppercase, lowercase, a number, and a special character"
     )
     private String password;
     
     private String confirmPassword;
     
-    @NotNull(message = "Role harus dipilih")
+    @NotNull(message = "Role must be selected")
     private Integer roleId;
     
     private Role role;

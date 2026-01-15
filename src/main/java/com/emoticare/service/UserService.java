@@ -23,7 +23,7 @@ public class UserService {
 
     // Email pattern untuk institusi (bisa disesuaikan)
     private static final Pattern INSTITUTION_EMAIL_PATTERN =
-            Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.(edu|ac|org)$");
+            Pattern.compile("^[a-zA-Z0-9._%+-]+@graduate\\.utm\\.my$");
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -41,28 +41,28 @@ public class UserService {
         try {
             // 1. Validasi password confirmation
             if (!user.getPassword().equals(user.getConfirmPassword())) {
-                result.put("error", "Password dan konfirmasi password tidak cocok");
+                result.put("error", "Password and confirmation do not match.");
                 logger.warn("Password confirmation mismatch for: {}", user.getUsername());
                 return result;
             }
 
             // 2. Validasi email domain institusi
             if (!INSTITUTION_EMAIL_PATTERN.matcher(user.getEmail()).matches()) {
-                result.put("error", "Gunakan email institusi (contoh: nama@university.edu)");
+                result.put("error", "Use your graduate UTM email (example: name@graduate.utm.my).");
                 logger.warn("Invalid email domain: {}", user.getEmail());
                 return result;
             }
 
             // 3. Check email sudah ada
             if (userDAO.emailExists(user.getEmail())) {
-                result.put("error", "Email sudah terdaftar");
+                result.put("error", "Email is already registered.");
                 logger.warn("Email already exists: {}", user.getEmail());
                 return result;
             }
 
             // 4. Check username sudah ada
             if (userDAO.usernameExists(user.getUsername())) {
-                result.put("error", "Username sudah digunakan");
+                result.put("error", "Username is already taken.");
                 logger.warn("Username already exists: {}", user.getUsername());
                 return result;
             }
@@ -73,18 +73,18 @@ public class UserService {
 
             // 6. Simpan ke database
             if (userDAO.createUser(user)) {
-                result.put("success", "Registrasi berhasil! Silakan login.");
+                result.put("success", "Registration successful! Please log in.");
                 logger.info("User registered successfully: {}", user.getUsername());
             } else {
-                result.put("error", "Gagal menyimpan data. Silakan coba lagi.");
+                result.put("error", "Failed to save data. Please try again.");
                 logger.error("Failed to save user: {}", user.getUsername());
             }
 
         } catch (SQLException e) {
-            result.put("error", "Terjadi kesalahan database: " + e.getMessage());
+            result.put("error", "Database error: " + e.getMessage());
             logger.error("Database error during registration", e);
         } catch (Exception e) {
-            result.put("error", "Terjadi kesalahan sistem");
+            result.put("error", "A system error occurred.");
             logger.error("Unexpected error during registration", e);
         }
 

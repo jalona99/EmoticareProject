@@ -72,11 +72,11 @@ public class RegistrationController {
             
         } catch (SQLException e) {
             logger.error("Database error during registration", e);
-            model.addAttribute("error", "Terjadi kesalahan database: " + e.getMessage());
+            model.addAttribute("error", "Database error: " + e.getMessage());
             return "error";
         } catch (Exception e) {
             logger.error("Unexpected error during registration", e);
-            model.addAttribute("error", "Terjadi kesalahan sistem");
+            model.addAttribute("error", "A system error occurred.");
             return "error";
         }
     }
