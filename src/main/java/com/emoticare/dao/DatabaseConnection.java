@@ -21,7 +21,7 @@ public class DatabaseConnection {
     
     // URL: PostgreSQL connection string
     // Format: jdbc:postgresql://[host]:[port]/[database]
-    private static final String URL = "jdbc:postgresql://localhost:5432/emoticare_db";
+    private static final String URL = "jdbc:postgresql://localhost:5432/emoticare_user";
     
     // USER: Application user (bukan postgres superuser)
     private static final String USER = "emoticare_user";

@@ -1,5 +1,7 @@
 package com.emoticare.model;
 
+import java.util.Map;
+
 public class AssessmentQuestion {
     private int id;
     private int assessmentTypeId;
@@ -7,6 +9,7 @@ public class AssessmentQuestion {
     private int questionOrder;
     private String questionCode;
     private boolean reverseScored;
+    private Map<Integer, String> scales;
     
     public AssessmentQuestion() {}
     
@@ -28,4 +31,7 @@ public class AssessmentQuestion {
     
     public boolean isReverseScored() { return reverseScored; }
     public void setReverseScored(boolean reverseScored) { this.reverseScored = reverseScored; }
+    
+    public Map<Integer, String> getScales() { return scales; }
+    public void setScales(Map<Integer, String> scales) { this.scales = scales; }
 }

@@ -408,6 +408,9 @@
                                 <a href="${pageContext.request.contextPath}/admin/users">Users</a>
                             </li>
                             <li>
+                                <a href="${pageContext.request.contextPath}/admin/instructors">Instructors</a>
+                            </li>
+                            <li>
                                 <a href="${pageContext.request.contextPath}/admin/learning">Learning Hub</a>
                             </li>
                             <li>
@@ -518,7 +521,7 @@
                             <td>
                                 <c:choose>
                                     <c:when test="${total > 0}">
-                                        ${(entry.value * 100 / total).toStringAsFixed(1)}%
+                                        <fmt:formatNumber value="${entry.value * 100 / total}" maxFractionDigits="1" />%
                                     </c:when>
                                     <c:otherwise>
                                         0%

@@ -29,10 +29,45 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         // Role Checks
         if (uri.contains("/admin")) {
-            if (user.getRoleId() != 4) { // 4 is Admin
-                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
+            boolean authorized = false;
+            
+            System.out.println("--- [AuthInterceptor Debug Start] ---");
+            System.out.println("URI: " + uri);
+            System.out.println("Session ID: " + session.getId());
+            
+            // Log all session attributes
+            java.util.Enumeration<String> attrs = session.getAttributeNames();
+            while (attrs.hasMoreElements()) {
+                String name = attrs.nextElement();
+                Object val = session.getAttribute(name);
+                System.out.println("Session Attr: " + name + " = " + val + " (Type: " + (val != null ? val.getClass().getName() : "null") + ")");
+            }
+
+            if (user != null) {
+                Integer roleFromUser = user.getRoleId();
+                System.out.println("Role from User object: " + roleFromUser);
+                if (roleFromUser != null && roleFromUser.equals(4)) {
+                    authorized = true;
+                }
+            }
+            
+            if (!authorized) {
+                Integer roleFromSession = (Integer) session.getAttribute("roleId");
+                System.out.println("Role from Session attr: " + roleFromSession);
+                if (roleFromSession != null && roleFromSession.equals(4)) {
+                    authorized = true;
+                }
+            }
+
+            System.out.println("Final Authorization Result: " + authorized);
+            System.out.println("--- [AuthInterceptor Debug End] ---");
+
+            if (!authorized) {
+                System.out.println("[AuthInterceptor] ACCESS DENIED: User is not an admin");
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied - Admin Role Required");
                 return false;
             }
+            System.out.println("[AuthInterceptor] ACCESS GRANTED");
         }
 
         return true;

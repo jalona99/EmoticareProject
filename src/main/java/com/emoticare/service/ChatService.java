@@ -52,7 +52,7 @@ public class ChatService {
             "mental health professional or campus counseling.",
             "If the user mentions self-harm, suicide, harming others, abuse, or immediate danger, respond with",
             "care and urge them to contact local emergency services or a trusted person immediately.",
-            "Offer small, low-risk coping steps and ask one gentle follow-up question.",
+            "Offer several practical, low-risk coping steps and ask one gentle follow-up question.",
             "",
             "Examples:",
             "User: I'm overwhelmed with assignments and exams.",
@@ -73,6 +73,44 @@ public class ChatService {
             "User: I want to hurt myself.",
             "Assistant: I'm really sorry you're feeling this way. You deserve support. Please reach out to local",
             "emergency services, a trusted person, or campus counseling right now. Are you safe at the moment?"
+    );
+    private static final String STRESS_RESPONSE = String.join("\n",
+            "Stress can pile up fast. A few small steps can help you feel more in control:",
+            "1) Do a quick brain dump of everything on your mind.",
+            "2) Pick the top 1-2 priorities for today and ignore the rest for now.",
+            "3) Work in short focus blocks (25-30 minutes) with short breaks.",
+            "4) Add a tiny reset like a walk, stretch, or 5 slow breaths.",
+            "5) If possible, reduce one commitment or ask for help with one task.",
+            "Would you like help turning your tasks into a simple plan?"
+    );
+    private static final String GRADES_RESPONSE = String.join("\n",
+            "If you want to improve grades, start with a simple, realistic study system:",
+            "1) Find the biggest gap (missed lectures, weak topics, or practice problems).",
+            "2) Use active recall: quiz yourself instead of re-reading notes.",
+            "3) Space it out: short sessions over several days beat cramming.",
+            "4) After each study block, do 3-5 practice questions.",
+            "5) Use office hours or a study group to fix confusion quickly.",
+            "6) Protect sleep the night before tests; it helps memory.",
+            "Which class or topic feels most difficult right now?"
+    );
+    private static final String SLEEP_RESPONSE = String.join("\n",
+            "For better sleep, try a calm and consistent routine:",
+            "1) Keep a steady sleep and wake time (even on weekends).",
+            "2) Power down screens 30-60 minutes before bed.",
+            "3) Reduce caffeine after early afternoon.",
+            "4) Write a quick worry list or to-do list to clear your mind.",
+            "5) Use your bed only for sleep so your brain associates it with rest.",
+            "6) Get morning light and a little movement during the day.",
+            "What is your current sleep schedule like?"
+    );
+    private static final String ANGER_RESPONSE = String.join("\n",
+            "Anger is a normal signal, but it can feel intense. These steps can help:",
+            "1) Pause and breathe slowly to lower the physical surge.",
+            "2) Name what you feel (hurt, disrespected, overwhelmed) to reduce the heat.",
+            "3) Take a short time-out before replying or reacting.",
+            "4) Move your body for a few minutes to release tension.",
+            "5) When ready, use \"I\" statements to describe what you need.",
+            "What usually triggers the anger for you?"
     );
 
     private final ChatDAO chatDAO = new ChatDAO();
@@ -125,6 +163,11 @@ public class ChatService {
 
         if (isComplex(normalized)) {
             return COMPLEX_RESPONSE;
+        }
+
+        String topicResponse = getTopicResponse(normalized);
+        if (topicResponse != null) {
+            return topicResponse;
         }
 
         return getFallbackResponse(normalized);
@@ -220,11 +263,8 @@ public class ChatService {
             return "I'm sorry you're feeling this way. Would you like to share what has been weighing on you?";
         }
         if (normalizedMessage.contains("anxious") || normalizedMessage.contains("anxiety")
-                || normalizedMessage.contains("stress") || normalizedMessage.contains("worried")) {
+                || normalizedMessage.contains("worried")) {
             return "That sounds stressful. A slow breath can help in the moment. What is the main thing causing the stress?";
-        }
-        if (normalizedMessage.contains("sleep") || normalizedMessage.contains("insomnia")) {
-            return "Sleep can be tough when your mind is busy. Would you like a few simple wind-down tips?";
         }
         if (normalizedMessage.contains("exam") || normalizedMessage.contains("assignment")
                 || normalizedMessage.contains("deadline") || normalizedMessage.contains("overwhelmed")) {
@@ -234,5 +274,21 @@ public class ChatService {
             return "You're welcome. I'm here if you want to talk more.";
         }
         return "Thanks for sharing with me. I'm listening. What feels hardest right now?";
+    }
+
+    private String getTopicResponse(String normalizedMessage) {
+        if (containsAny(normalizedMessage, new String[] {"stress", "stressed", "overwhelmed"})) {
+            return STRESS_RESPONSE;
+        }
+        if (containsAny(normalizedMessage, new String[] {"grades", "gpa", "study", "studying", "class"})) {
+            return GRADES_RESPONSE;
+        }
+        if (containsAny(normalizedMessage, new String[] {"sleep", "insomnia", "tired"})) {
+            return SLEEP_RESPONSE;
+        }
+        if (containsAny(normalizedMessage, new String[] {"anger", "angry", "mad", "irritable"})) {
+            return ANGER_RESPONSE;
+        }
+        return null;
     }
 }

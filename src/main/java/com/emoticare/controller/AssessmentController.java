@@ -22,7 +22,9 @@ public class AssessmentController {
     // =====================================================
     @GetMapping("/select")
     public String selectAssessment(Model model, HttpSession session) {
-        Integer userId = (Integer) session.getAttribute("userId");
+        User user = (User) session.getAttribute("user");
+        Integer userId = (user != null) ? user.getId() : (Integer) session.getAttribute("userId");
+        
         if (userId == null) {
             return "redirect:/login";
         }
@@ -43,7 +45,9 @@ public class AssessmentController {
             HttpSession session,
             Model model) {
         
-        Integer userId = (Integer) session.getAttribute("userId");
+        User user = (User) session.getAttribute("user");
+        Integer userId = (user != null) ? user.getId() : (Integer) session.getAttribute("userId");
+        
         if (userId == null) {
             return "redirect:/login";
         }
@@ -64,7 +68,8 @@ public class AssessmentController {
     // =====================================================
     @PostMapping("/confirm-disclaimer")
     public String confirmDisclaimer(HttpSession session, Model model) {
-        Integer userId = (Integer) session.getAttribute("userId");
+        User user = (User) session.getAttribute("user");
+        Integer userId = (user != null) ? user.getId() : (Integer) session.getAttribute("userId");
         Integer typeId = (Integer) session.getAttribute("selectedAssessmentTypeId");
         
         if (userId == null || typeId == null) {
@@ -92,7 +97,9 @@ public class AssessmentController {
             HttpSession session,
             Model model) {
         
-        Integer userId = (Integer) session.getAttribute("userId");
+        User user = (User) session.getAttribute("user");
+        Integer userId = (user != null) ? user.getId() : (Integer) session.getAttribute("userId");
+        
         if (userId == null) {
             return "redirect:/login";
         }
@@ -139,7 +146,9 @@ public class AssessmentController {
         
         Map<String, Object> response = new HashMap<>();
         
-        Integer userId = (Integer) session.getAttribute("userId");
+        User user = (User) session.getAttribute("user");
+        Integer userId = (user != null) ? user.getId() : (Integer) session.getAttribute("userId");
+        
         if (userId == null) {
             response.put("success", false);
             response.put("message", "Not logged in");
@@ -170,7 +179,9 @@ public class AssessmentController {
             HttpSession session,
             Model model) {
         
-        Integer userId = (Integer) session.getAttribute("userId");
+        User user = (User) session.getAttribute("user");
+        Integer userId = (user != null) ? user.getId() : (Integer) session.getAttribute("userId");
+        
         if (userId == null) {
             return "redirect:/login";
         }
@@ -219,7 +230,9 @@ public class AssessmentController {
             HttpSession session,
             Model model) {
         
-        Integer userId = (Integer) session.getAttribute("userId");
+        User user = (User) session.getAttribute("user");
+        Integer userId = (user != null) ? user.getId() : (Integer) session.getAttribute("userId");
+        
         if (userId == null) {
             return "redirect:/login";
         }
@@ -254,7 +267,9 @@ public class AssessmentController {
             HttpSession session,
             Model model) {
         
-        Integer userId = (Integer) session.getAttribute("userId");
+        User user = (User) session.getAttribute("user");
+        Integer userId = (user != null) ? user.getId() : (Integer) session.getAttribute("userId");
+        
         if (userId == null) {
             return "redirect:/login";
         }
@@ -285,6 +300,10 @@ public class AssessmentController {
             if (score <= 9) return "Mild anxiety";
             if (score <= 14) return "Moderate anxiety";
             return "Severe anxiety";
+        } else if ("PSS-10".equals(code)) {
+            if (score <= 13) return "Low perceived stress";
+            if (score <= 26) return "Moderate perceived stress";
+            return "High perceived stress";
         }
         return "Assessment completed";
     }

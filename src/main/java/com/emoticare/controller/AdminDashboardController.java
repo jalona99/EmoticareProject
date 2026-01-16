@@ -19,8 +19,10 @@ public class AdminDashboardController {
     /**
      * Check apakah user adalah admin (roleId = 4)
      */
-    private boolean isAdmin(User user) {
-        return user != null && user.getRoleId() == 4;
+    private boolean isAdmin(User user, HttpSession session) {
+        if (user != null && user.getRoleId() == 4) return true;
+        Integer roleId = (Integer) session.getAttribute("roleId");
+        return roleId != null && roleId == 4;
     }
 
     /**
@@ -32,7 +34,8 @@ public class AdminDashboardController {
         User current = (User) session.getAttribute("user");
         
         // Jika bukan admin, redirect ke login
-        if (!isAdmin(current)) {
+        if (!isAdmin(current, session)) {
+            System.out.println("[AdminDashboardController] Access Denied for user: " + (current != null ? current.getUsername() : "null"));
             return "redirect:/login";
         }
 
