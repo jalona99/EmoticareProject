@@ -411,6 +411,9 @@
                                 <a href="${pageContext.request.contextPath}/admin/instructors">Instructors</a>
                             </li>
                             <li>
+                                <a href="${pageContext.request.contextPath}/admin/chat-alerts">Chat Alerts</a>
+                            </li>
+                            <li>
                                 <a href="${pageContext.request.contextPath}/admin/learning">Learning Hub</a>
                             </li>
                             <li>

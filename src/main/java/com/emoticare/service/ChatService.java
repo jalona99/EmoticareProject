@@ -1,6 +1,7 @@
 package com.emoticare.service;
 
 import com.emoticare.dao.ChatDAO;
+import com.emoticare.dao.ChatRiskAlertDAO;
 import com.emoticare.model.ChatMessage;
 import com.emoticare.model.ChatSession;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -114,6 +115,7 @@ public class ChatService {
     );
 
     private final ChatDAO chatDAO = new ChatDAO();
+    private final ChatRiskAlertDAO chatRiskAlertDAO = new ChatRiskAlertDAO();
 
     public int startNewSession(int userId, String firstMessage) throws SQLException {
         // Generate a title from the first message (simple truncation)
@@ -134,6 +136,21 @@ public class ChatService {
     public void saveMessage(int sessionId, String sender, String content) throws SQLException {
         ChatMessage message = new ChatMessage(sessionId, sender, content);
         chatDAO.saveMessage(message);
+    }
+
+    public void recordRiskAlertIfNeeded(int userId, int sessionId, String userMessage) {
+        if (userMessage == null || userMessage.trim().isEmpty()) {
+            return;
+        }
+        String normalized = userMessage.toLowerCase(Locale.ROOT);
+        if (!isHighRisk(normalized)) {
+            return;
+        }
+        try {
+            chatRiskAlertDAO.createAlert(userId, sessionId, "SELF_HARM");
+        } catch (SQLException e) {
+            logger.warn("Failed to store chat risk alert for userId={}", userId, e);
+        }
     }
 
     public String getAIResponse(String userMessage) {
@@ -234,7 +251,9 @@ public class ChatService {
     private boolean isHighRisk(String text) {
         return containsAny(text, new String[] {
                 "suicide", "kill myself", "end my life", "self-harm", "self harm", "hurt myself",
-                "overdose", "no reason to live", "harm myself", "kill someone", "hurt someone"
+                "overdose", "no reason to live", "harm myself", "kill someone", "hurt someone",
+                "want to die", "wanting to die", "dont want to live", "don't want to live",
+                "not want to live", "not wanting to live", "end it all", "life isn't worth living"
         });
     }
 

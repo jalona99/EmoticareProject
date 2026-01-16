@@ -53,11 +53,14 @@ com\emoticare\controller\LoginController.class
 com\emoticare\dao\ModuleDAO.class
 com\emoticare\service\ScoringService$ScoringResult.class
 com\emoticare\dao\QuestionDAO.class
+com\emoticare\dao\ChatRiskAlertDAO.class
 com\emoticare\dao\AssessmentTypeDAO.class
+com\emoticare\model\ChatRiskAlert.class
 com\emoticare\model\Role.class
 com\emoticare\dao\ProgressDAO.class
 com\emoticare\model\ForumComment.class
 com\emoticare\config\AuthInterceptor.class
 com\emoticare\controller\AdminAssessmentController.class
+com\emoticare\controller\AdminChatAlertController.class
 com\emoticare\model\ChatMessage.class
 com\emoticare\model\AssessmentResponse.class

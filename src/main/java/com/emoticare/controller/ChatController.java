@@ -88,10 +88,13 @@ public class ChatController {
             // 2. Save user message
             chatService.saveMessage(sessionId, "USER", message);
 
-            // 3. Get AI response
+            // 3. Record risk alert (no chat content stored)
+            chatService.recordRiskAlertIfNeeded(user.getId(), sessionId, message);
+
+            // 4. Get AI response
             String aiResponseText = chatService.getAIResponse(message);
 
-            // 4. Save AI message
+            // 5. Save AI message
             chatService.saveMessage(sessionId, "AI", aiResponseText);
 
             response.put("success", true);
